@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -28,10 +29,13 @@ class StreamVideoPlayer extends StatefulWidget {
   final StoryController storyController;
 
   @override
+  // ignore: library_private_types_in_public_api
   _StreamVideoPlayerState createState() => _StreamVideoPlayerState();
 }
 
 class _StreamVideoPlayerState extends State<StreamVideoPlayer> {
+  late StreamSubscription _streamSubscription;
+
   VideoPlayerController? _offlineController;
   VideoPlayerController? _onlineController;
 
@@ -93,6 +97,23 @@ class _StreamVideoPlayerState extends State<StreamVideoPlayer> {
     if (widget.url != null) {
       initOnlinePlayer(widget.url!);
     }
+
+    _streamSubscription =
+        widget.storyController.playbackNotifier.listen((value) {
+      if (value == PlaybackState.pause) {
+        if (getIsInitializedOfflinePlayer) {
+          _offlineController!.pause();
+        } else if (getIsInitializedOnlinePlayer) {
+          _onlineController!.pause();
+        }
+      } else if (value == PlaybackState.play) {
+        if (getIsInitializedOfflinePlayer) {
+          _offlineController!.play();
+        } else if (getIsInitializedOnlinePlayer) {
+          _onlineController!.play();
+        }
+      }
+    });
   }
 
   onProgressOfflineVideo() {
@@ -122,6 +143,8 @@ class _StreamVideoPlayerState extends State<StreamVideoPlayer> {
       _offlineController!.addListener(onProgressOfflineVideo);
 
       _offlineController!.play();
+
+      widget.storyController.play();
     });
   }
 
@@ -163,7 +186,11 @@ class _StreamVideoPlayerState extends State<StreamVideoPlayer> {
     _onlineController!.play();
 
     if (_progress != null) {
-      _onlineController!.seekTo(_progress!);
+      widget.storyController.pause();
+
+      _onlineController!
+          .seekTo(_progress!)
+          .then((value) => widget.storyController.play());
     }
   }
 
@@ -220,6 +247,8 @@ class _StreamVideoPlayerState extends State<StreamVideoPlayer> {
       _onlineController!.removeListener(onProgressOnlineVideo);
       _onlineController!.dispose();
     }
+
+    _streamSubscription.cancel();
 
     super.dispose();
   }
