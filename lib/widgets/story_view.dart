@@ -229,6 +229,7 @@ class StoryItem {
   factory StoryItem.pageVideo(
     String url, {
     File? file,
+    Widget? videoPlayer,
     required StoryController controller,
     Key? key,
     Duration? duration,
@@ -247,13 +248,14 @@ class StoryItem {
         color: Colors.black,
         child: Stack(
           children: <Widget>[
-            StoryVideo(
-              width,
-              height,
-              file: file,
-              url: url,
-              storyController: controller,
-            ),
+            videoPlayer ??
+                StoryVideo(
+                  width,
+                  height,
+                  file: file,
+                  url: url,
+                  storyController: controller,
+                ),
             SafeArea(
               child: Align(
                 alignment: Alignment.bottomCenter,
