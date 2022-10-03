@@ -7,8 +7,8 @@ import 'package:focus_detector/focus_detector.dart';
 import 'package:sportflik_story_view/controller/story_controller.dart';
 import 'package:video_player/video_player.dart';
 
-class StreamVideoPlayer extends StatefulWidget {
-  const StreamVideoPlayer({
+class StoryVideoPlayer extends StatefulWidget {
+  const StoryVideoPlayer({
     Key? key,
     required this.width,
     required this.height,
@@ -30,10 +30,10 @@ class StreamVideoPlayer extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _StreamVideoPlayerState createState() => _StreamVideoPlayerState();
+  _StoryVideoPlayerState createState() => _StoryVideoPlayerState();
 }
 
-class _StreamVideoPlayerState extends State<StreamVideoPlayer> {
+class _StoryVideoPlayerState extends State<StoryVideoPlayer> {
   late StreamSubscription _streamSubscription;
 
   VideoPlayerController? _offlineController;

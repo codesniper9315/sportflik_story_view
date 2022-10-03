@@ -226,8 +226,8 @@ class StoryItem {
 
   /// Shorthand for creating page video. [controller] should be same instance as
   /// one passed to the `StoryView`
-  factory StoryItem.pageVideo(
-    String url, {
+  factory StoryItem.pageVideo({
+    String? url,
     File? file,
     Widget? videoPlayer,
     required StoryController controller,

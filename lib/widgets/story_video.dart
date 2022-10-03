@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:sportflik_story_view/widgets/stream_video_player.dart';
+import 'package:sportflik_story_view/widgets/story_video_player.dart';
 
 import '../controller/story_controller.dart';
 
@@ -33,7 +33,7 @@ class StoryVideo extends StatefulWidget {
 class StoryVideoState extends State<StoryVideo> {
   @override
   Widget build(BuildContext context) {
-    return StreamVideoPlayer(
+    return StoryVideoPlayer(
       height: double.infinity,
       width: double.infinity,
       storyController: widget.storyController!,
