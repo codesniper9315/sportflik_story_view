@@ -116,6 +116,7 @@ class StoryItem {
     required String url,
     required StoryController controller,
     Key? key,
+    Widget? image,
     BoxFit imageFit = BoxFit.fitWidth,
     String? caption,
     bool shown = false,
@@ -129,12 +130,13 @@ class StoryItem {
         color: Colors.black,
         child: Stack(
           children: <Widget>[
-            StoryImage.url(
-              url,
-              controller: controller,
-              fit: imageFit,
-              requestHeaders: requestHeaders,
-            ),
+            image ??
+                StoryImage.url(
+                  url,
+                  controller: controller,
+                  fit: imageFit,
+                  requestHeaders: requestHeaders,
+                ),
             SafeArea(
               child: Align(
                 alignment: Alignment.bottomCenter,
